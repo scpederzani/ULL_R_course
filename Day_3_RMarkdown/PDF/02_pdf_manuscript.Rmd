@@ -1,0 +1,132 @@
+---
+title: My fantastic penguin paper
+author:
+  - name: Alice Anonymous
+    email: alice@example.com
+    affiliation: Some Institute of Technology
+    footnote: 1
+  - name: Bob Security
+    email: bob@example.com
+    affiliation: Another University
+  - name: Cat Memes
+    email: cat@example.com
+    affiliation: Another University
+    footnote: 2
+  - name: Derek Zoolander
+    email: derek@example.com
+    affiliation: Some Institute of Technology
+    footnote: 2
+address:
+  - code: Some Institute of Technology
+    address: Department, Street, City, State, Zip
+  - code: Another University
+    address: Department, Street, City, State, Zip
+footnote:
+  - code: 1
+    text: "Corresponding Author"
+  - code: 2
+    text: "Equal contribution"
+abstract: |
+  Aliquam dictum lobortis consequat. Sed a rhoncus metus, pharetra commodo justo. Mauris convallis non lorem et placerat. Fusce sollicitudin dictum tincidunt. Sed pretium dolor ut ultricies dictum. Nam quis felis risus. Praesent mollis dui fermentum dignissim rhoncus. Praesent aliquet dui a odio molestie ultricies. Praesent laoreet felis magna, eu consectetur metus accumsan ac. Maecenas ac nunc faucibus, dapibus leo viverra, placerat ante. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed interdum congue vehicula. Aenean id felis luctus, tempus urna eu, sollicitudin ipsum. Etiam placerat bibendum urna in gravida. Integer bibendum malesuada augue, sit amet condimentum ipsum lobortis facilisis. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+
+journal: "An awesome journal of penguin science"
+date: "`r Sys.Date()`"
+bibliography: mybibfile.bib
+linenumbers: true
+geometry: margin = 2cm
+numbersections: true
+keep_tex: yes
+csl: elsarticle.csl
+output: rticles::elsevier_article
+header-includes:
+  - \usepackage{setspace}
+  - \doublespacing
+  - \usepackage{placeins}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+
+library("ggplot2")
+library("dplyr")
+library("knitr")
+```
+
+
+\newpage
+
+# Intro
+
+
+Vivamus gravida eu ex ut imperdiet. Sed pharetra eros vel ligula lacinia, et ullamcorper ligula rhoncus. Maecenas gravida faucibus ligula vel fringilla. Sed nec felis lacus. Pellentesque congue, neque ac consectetur maximus, ex elit auctor felis, imperdiet tempus mi metus eget magna. Fusce hendrerit tempor lorem, at laoreet risus tempus ut. In nunc turpis, commodo at scelerisque id, porttitor ut risus. Pellentesque sit amet augue nec odio pretium bibendum quis quis sem. Maecenas massa odio, dignissim id dignissim eget, fermentum nec risus. Cras vitae leo sed turpis malesuada faucibus ac id lacus. Vestibulum varius lorem ut nulla tincidunt, pretium eleifend nisi posuere. Donec finibus suscipit urna quis suscipit. Fusce sodales orci eget efficitur semper. Maecenas quis elementum urna, lacinia elementum leo.
+
+We will explore this aspect in Section \ref{sec:results}. 
+
+An important prior contribution was made by [@Dirac1953888]. 
+
+# Results \label{sec:results}
+
+Quisque sed ullamcorper lectus. Vivamus mollis in erat ut egestas. Donec euismod convallis ipsum, sed consequat dui malesuada ut. Quisque aliquam iaculis viverra. Donec condimentum venenatis sapien, et malesuada nunc placerat vitae. Aenean ut erat nisi. Nunc lobortis orci malesuada varius ultrices. Duis iaculis purus vel odio eleifend efficitur. Proin vestibulum ante nec venenatis rhoncus. Quisque elementum ultricies sodales. Fusce eget maximus tortor. Maecenas sed massa finibus, malesuada mi ac, elementum mauris. Ut eu urna eget sapien pulvinar rhoncus.
+
+
+```{r load_data}
+
+penguins_narm <- read.csv("../../data/penguins_no_na.csv")
+
+```
+
+
+```{r penguin_plot, fig.width = 5, fig.height = 5, fig.cap = "\\label{fig:penguins} You see so many wonderful things about penguin size in this graph. "}
+
+ggplot(penguins_narm, aes(x = flipper_length_mm, y = body_mass_g, 
+                          fill = species)) + 
+  stat_ellipse(geom = "polygon", type = "norm", level = 0.95, alpha = 0.3, color = NA)+
+  geom_point(size = 3, shape = 21, color = "black")+
+  facet_wrap( ~ sex)+
+  theme_bw()+
+  labs(x = "Flipper length (mm)", 
+       y = "Body mass (g)", 
+       title = "Figure 1: Penguin size", 
+       fill = "Species")+
+  theme(axis.title = element_text(size = 14), 
+        legend.position = "bottom")+
+  scale_fill_manual(values = c("#2E778F", "#7FC0A6", "#DB3445"))+
+  NULL
+
+```
+
+
+```{r analysis}
+
+penguins_summary <- penguins_narm %>%
+  group_by(island, species) %>%
+  summarise(mean_body_mass = mean(body_mass_g))
+
+```
+
+You can see a graph of penguin mass versus flipper length in Figure \ref{fig:penguins}. 
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque finibus dui vitae nunc convallis iaculis. Aenean ac diam et turpis semper accumsan. Sed sapien nunc, convallis ut mauris non, mollis lobortis erat. Phasellus condimentum lorem augue, sit amet sodales libero ultricies et. In vel elementum dui. Duis tristique tortor ut est dapibus iaculis. Maecenas vulputate, diam in cursus dignissim, felis sem rhoncus magna, id lobortis quam lectus non nunc. Suspendisse potenti. Sed in porttitor nunc. Nullam sollicitudin rutrum felis ut fermentum. Cras ullamcorper aliquam consequat. Etiam ac nisl viverra, dignissim tortor eget, cursus quam. Duis eu nisl eu nisl ornare pulvinar id vel orci. Phasellus sodales auctor elit, vel aliquam erat pretium vitae. Nam id aliquam neque.
+
+Proin egestas semper posuere. In vitae semper augue. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus faucibus bibendum molestie. Maecenas finibus pellentesque eros, a condimentum felis tristique ut. Nunc nec nunc accumsan, egestas enim nec, lobortis risus. Etiam tincidunt, dui quis tincidunt porta, massa urna efficitur neque, at malesuada velit augue ac nunc.
+
+\FloatBarrier
+
+```{r table}
+
+kable(penguins_summary, caption = "\\label{tab:penguinmass} A summary of penguin body mass by island and species. ")
+
+```
+
+An overview of penguin body mass for all species and islands can be found in Table \ref{tab:penguinmass}. 
+
+# Discussion
+
+Donec odio libero, facilisis eu lacinia eget, placerat eu arcu. Quisque gravida sapien mauris, vel ornare mauris dignissim quis. Nulla fringilla quam id velit aliquam sagittis. Nam vehicula magna eros, nec convallis sem faucibus et. Donec dignissim ut mauris ut vehicula. Integer elit massa, mollis vel ultrices sit amet, placerat a erat. Suspendisse pellentesque dapibus tellus, sit amet posuere tortor venenatis vitae. Sed ipsum nisi, pharetra quis scelerisque quis, tincidunt non orci. Etiam euismod auctor ligula consectetur lobortis. Proin hendrerit finibus enim viverra ullamcorper. Proin consectetur lectus orci, vel tincidunt nibh pellentesque consequat.
+
+Aliquam accumsan tempus mollis. Donec efficitur arcu eu ex molestie, sed imperdiet massa facilisis. Donec faucibus gravida lacus eget consectetur. Morbi dictum felis a mi cursus rhoncus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ac arcu tincidunt, facilisis eros eget, auctor urna. Suspendisse potenti. Nulla at eros sit amet magna rhoncus varius. Sed imperdiet ultricies nulla a ultricies. Praesent ultrices eleifend urna non ultrices. Sed varius arcu eros, eu faucibus velit aliquam vel. Mauris pellentesque auctor eleifend. Cras laoreet erat lorem, nec condimentum risus auctor sed. Vestibulum fringilla eget mauris non tempor.
+
+Vestibulum commodo in nisi ut ullamcorper. Vestibulum tristique convallis nibh, vel feugiat massa pharetra vitae. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam sed pretium mi, a tristique erat. Donec eu mattis nisi. Pellentesque ullamcorper rhoncus pretium. Cras nulla augue, bibendum a consequat non, placerat nec mauris. Mauris non aliquet nisl, sit amet eleifend metus. Aenean ullamcorper, eros quis maximus bibendum, lectus ante venenatis magna, sit amet lobortis ex urna a elit. Nullam luctus eget erat eu ultricies. Praesent mattis ligula eget dictum tristique. Praesent egestas tellus at dui scelerisque placerat. Vestibulum dapibus sapien nec elit vulputate, sed molestie turpis suscipit. Cras nunc ligula, ullamcorper vel lobortis nec, placerat eu nisl. Aenean nec maximus nisi.
+
+# References
